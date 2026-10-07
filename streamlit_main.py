@@ -106,7 +106,7 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # 모델 불러오기
 model_path = 'CNN_FashionMNIST2.pth'
 model = MyCNNModel().to(DEVICE)
-model.load_state_dict(torch.load(model_path, map_location=torch.device(DEVICE))
+model.load_state_dict(torch.load(model_path, map_location=torch.device(DEVICE)))
 
 # 전처리 불러오기
 transform_config_path = 'CNN_FashionMNIST2_transform_config.json'
