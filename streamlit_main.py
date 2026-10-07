@@ -127,7 +127,7 @@ def save_uploaded_file(directory, file):
   with open(os.path.join(directory, file.name), 'wb') as f:
     f.write(file.getbuffer())
 
-  retirn st.success("파일 업로드 성공")
+  return st.success("파일 업로드 성공")
 
 st.title('fashionMNIST')
 
