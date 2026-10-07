@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 import torch
 from torch import nn
