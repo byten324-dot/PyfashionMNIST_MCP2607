@@ -80,7 +80,7 @@ classes = ['T-shirt/top',
  'Bag',
  'Ankle boot']
 
-def predict(file_path):
+def predict(file_path, model, transform):
     img = Image.open(file_path)
     mono8img = img.convert('L')
     invImg = ops.invert(mono8img)
