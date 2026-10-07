@@ -98,7 +98,7 @@ def predict(file_path):
         probs = torch.softmax(logits, dim=1)
         predicted_class = torch.argmax(probs, dim=1).item()
 
-    print(f"예측결과: {predicted_class} - {classes[predicted_class]}")
+    return predicted_class, classes[predicted_class]
 
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -108,7 +108,35 @@ model_path = 'CNN_FashionMNIST2.pth'
 model = MyCNNModel().to(DEVICE)
 model.load_state_dict(torch.load(model_path, map_location=torch.device(DEVICE))
 
+# 전처리 불러오기
+transform_config_path = 'CNN_FashionMNIST2_transform_config.json'
+transform_config = json.load(open(transform_config_path, 'r'))
+
+# transform 복원
+transform = transforms.Compose([
+    transforms.Resize(transform_config['resize']),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=transform_config['mean'], std=transform_config['std'])
+])
+
+# 파일 업로드 함수
+def save_uploaded_file(directory, file):
+  if not os.path.exists(directory):
+    os.makedirs(directory)
+
+  with open(os.path.join(directory, file.name), 'wb') as f:
+    f.write(file.getbuffer())
+
+  retirn st.success("파일 업로드 성공")
 
 st.title('fashionMNIST')
 
 img_file = st.file_uploader('이미지를 업로드 하세요', type=['png', 'jpg', 'jpeg'])
+
+
+if img_file:
+  same_uploaded_file('images', img_file)
+  st.image(f'images/{img_file.name}')
+
+  _, pred_class = predict(os.path.join('images', img_file.name), model, transform)
+  st.subheader(pred_class)
