@@ -279,4 +279,3 @@ if img_file is not None:
     st.success(
         f'예측된 의류: {pred_class}'
     )
-```
